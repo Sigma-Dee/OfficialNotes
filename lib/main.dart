@@ -8,6 +8,7 @@ late Box noteBox;
 
 void main() async {
   await Hive.initFlutter();
+  Hive.registerAdapter(NoteAdapter());
   noteBox = await Hive.openBox<Note>('noteBox');
   runApp(const MyApp());
 }

@@ -19,11 +19,17 @@ class AllNotesPage extends StatefulWidget {
 
 class _AllNotesPageState extends State<AllNotesPage> {
   // check list
-  bool isListEmpty = true;
+  bool isListEmpty() {
+    if (noteBox.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   // initialize state
   @override
   void initState() {
-    isListEmpty = noteBox.isEmpty;
     super.initState();
   }
 
@@ -55,7 +61,7 @@ class _AllNotesPageState extends State<AllNotesPage> {
     Color softColor = Colors.blue.shade100;
 
     return Scaffold(
-      body: isListEmpty
+      body: isListEmpty()
           ? ClipRRect(
               borderRadius: const BorderRadius.all(
                 Radius.circular(28),
@@ -102,7 +108,7 @@ class _AllNotesPageState extends State<AllNotesPage> {
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 12,
                           height: 1.5,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -114,6 +120,7 @@ class _AllNotesPageState extends State<AllNotesPage> {
                             noteData.noteContent,
                             style: const TextStyle(
                               color: Colors.black,
+                              fontSize: 10,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
