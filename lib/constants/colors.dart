@@ -12,11 +12,23 @@ class AppColors {
   static const Color waterColor = Color(0xFFf5f5f5);
 }
 
-List<Color> cardColors = [
+// list colors
+
+List<Color> listColors = [
   Colors.blue.shade100,
   Colors.green.shade100,
   Colors.brown.shade100,
   Colors.orange.shade100,
+];
+
+List<Color> listAccentColors = [
+  Colors.blue.shade300,
+  Colors.green.shade300,
+  Colors.brown.shade300,
+  Colors.orange.shade300,
+];
+
+List<Color> cardColors = [
   Colors.pink.shade100,
   Colors.red.shade100,
   Colors.yellow.shade100,
@@ -24,10 +36,6 @@ List<Color> cardColors = [
 ];
 
 List<Color> waterMarkColors = [
-  Colors.blue.shade300,
-  Colors.green.shade300,
-  Colors.brown.shade300,
-  Colors.orange.shade300,
   Colors.pink.shade300,
   Colors.red.shade300,
   Colors.yellow.shade300,

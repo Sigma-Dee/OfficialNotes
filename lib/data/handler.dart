@@ -23,22 +23,6 @@ List<String> buttonText = [
   'Agenda',
 ];
 
-// list colors
-
-List<Color> listColors = [
-  Colors.blue.shade100,
-  Colors.green.shade100,
-  Colors.brown.shade100,
-  Colors.orange.shade100,
-];
-
-List<Color> listAccentColors = [
-  Colors.blue.shade300,
-  Colors.green.shade300,
-  Colors.brown.shade300,
-  Colors.orange.shade300,
-];
-
 // note
 List<Note> deletedNotes = [];
 List<Note> savedNotes = [];

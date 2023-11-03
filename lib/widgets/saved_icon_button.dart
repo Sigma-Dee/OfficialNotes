@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:official_app/pages/views/bookmark_page.dart';
 
 class Saved extends StatelessWidget {
   const Saved({super.key});
@@ -9,7 +10,14 @@ class Saved extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 20),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Bookmarked(),
+            ),
+          );
+        },
         borderRadius: BorderRadius.circular(30),
         child: Container(
           decoration: ShapeDecoration(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:official_app/constants/colors.dart';
 import 'package:official_app/model/data_model.dart';
 import 'package:official_app/pages/add_update_note.dart';
 
@@ -39,24 +38,6 @@ class _AllNotesPageState extends State<AllNotesPage> {
 
   @override
   Widget build(BuildContext context) {
-    // card color function
-    getCardColor(int index) {
-      if (index >= 0 && index < cardColors.length) {
-        return cardColors[index];
-      } else {
-        return AppColors.accentColorOne;
-      }
-    }
-
-    // card color accent function
-    getWaterMarkColor(int index) {
-      if (index >= 0 && index < waterMarkColors.length) {
-        return waterMarkColors[index];
-      } else {
-        return AppColors.primaryColor;
-      }
-    }
-
     Color hardColor = Colors.blue.shade300;
     Color softColor = Colors.blue.shade100;
 
@@ -99,7 +80,7 @@ class _AllNotesPageState extends State<AllNotesPage> {
                 final createdAt = noteData.noteCreatedAt;
                 final formattedTime = formatTimeDifference(createdAt);
                 return Card(
-                  color: getCardColor(index),
+                  color: softColor,
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: ListTile(
@@ -155,13 +136,13 @@ class _AllNotesPageState extends State<AllNotesPage> {
                         },
                         style: FilledButton.styleFrom(
                           backgroundColor: noteData.isSaved
-                              ? AppColors.backgroundColorTwo.withOpacity(0.5)
+                              ? Colors.white
                               : Colors.transparent,
                         ),
                         icon: Icon(
                           Icons.bookmark_rounded,
                           color: noteData.isSaved
-                              ? getWaterMarkColor(index)
+                              ? hardColor
                               : Colors.grey.withOpacity(0.5),
                         ),
                       ),
