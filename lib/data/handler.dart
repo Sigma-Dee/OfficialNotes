@@ -5,8 +5,7 @@ import '../model/data_model.dart';
 String userName = 'Sigma D';
 String userDetail = 'admin';
 String userEmail = 'devtee9@gmail.com';
-// layout change listener
-bool isToggled = false;
+
 // icon list
 List<IconData> buttonIcons = [
   Icons.add,

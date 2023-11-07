@@ -32,12 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       // Stack
-      body: Stack(
+      body: const Stack(
         children: [
-          const HeroCarousel(),
-          MainBody(
-            updateUI: updateUI,
-          ),
+          HeroCarousel(),
+          MainBody(),
         ],
       ),
       floatingActionButton: FloatingActionButton(

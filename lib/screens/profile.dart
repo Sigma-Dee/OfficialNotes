@@ -10,6 +10,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  bool isToggled = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
