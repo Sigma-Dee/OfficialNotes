@@ -60,9 +60,9 @@ class _MainBodyWidgetState extends State<MainBodyWidget> {
 
         IconData icon;
         if (appState.isToggled == true) {
-          icon = Icons.grid_view_rounded;
-        } else {
           icon = Icons.view_agenda_rounded;
+        } else {
+          icon = Icons.grid_view_rounded;
         }
 
         return Container(
