@@ -64,7 +64,7 @@ class _NavigationManagerState extends State<NavigationManager> {
                 Icons.account_circle_outlined,
                 color: Colors.grey,
               ),
-              label: 'Profile',
+              label: 'You',
               selectedIcon: Icon(Icons.account_circle),
             ),
           ],

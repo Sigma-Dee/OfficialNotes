@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../data/handler.dart';
+import 'package:official_app/data/handler.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -10,15 +9,16 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool isToggled = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue.shade200,
         title: const Text(
           'Profile',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 15,
           ),
         ),
         centerTitle: true,
@@ -26,11 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: InkWell(
-              onTap: () {
-                setState(() {
-                  isToggled = !isToggled;
-                });
-              },
+              onTap: () {},
               child: Container(
                 decoration: ShapeDecoration(
                   shape: ContinuousRectangleBorder(
@@ -40,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 padding: const EdgeInsets.all(10),
                 child: Icon(
-                  isToggled ? Icons.light_mode : Icons.dark_mode,
+                  Icons.settings,
                   color: Colors.grey,
                 ),
               ),
@@ -48,208 +44,153 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(
-              Radius.circular(30),
-            ),
-            child: Container(
-              color: Colors.blue.shade200,
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Center(
-                    child: Card(
-                      color: Colors.blue.shade400,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(30),
-                        ),
-                      ),
+      body: Stack(
+        children: [
+          Container(
+            color: Colors.blue.shade200,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                SizedBox(
+                  height: 120,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 295,
+                    ),
+                    InkWell(
+                      onTap: () {},
                       child: Container(
-                        padding: const EdgeInsets.all(30),
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              width: 120,
-                              height: 120,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(100),
-                                ),
-                                child: Image(
-                                  image:
-                                      AssetImage('assets/profile_circle.jpg'),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              userName,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              '$userDetail | $userEmail',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ],
+                        decoration: ShapeDecoration(
+                          shape: ContinuousRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          color: Colors.grey.shade200.withOpacity(0.4),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: Icon(
+                          Icons.palette_outlined,
+                          color: Colors.grey,
                         ),
                       ),
                     ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          DraggableScrollableSheet(
+            builder: (context, scrollController) {
+              return Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(50),
+                    topRight: Radius.circular(50),
                   ),
-                  SizedBox(
-                    height: 20,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
                   ),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Card(
-                          color: Colors.blue.shade400,
-                          child: Container(
-                            width: 130,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.bookmark,
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      'Saved',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                  child: CustomScrollView(
+                    controller: scrollController,
+                    slivers: [
+                      const SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: 15,
                         ),
-                        Card(
-                          color: Colors.blue.shade400,
-                          child: Container(
-                            width: 130,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      'Trash Bin',
-                                      style: TextStyle(color: Colors.white),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Center(
-                    child: Card(
-                      color: Colors.blue.shade400,
-                      child: Padding(
+                      ),
+                      // Draggable Scrollable Sheet handle
+                      SliverPadding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
+                          horizontal: 130,
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        sliver: SliverToBoxAdapter(
+                          child: Container(
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: 30,
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Row(
                           children: [
-                            Row(
+                            InkWell(
+                              onTap: () {},
+                              child: Container(
+                                decoration: ShapeDecoration(
+                                  shape: ContinuousRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  color: Colors.grey.shade200,
+                                ),
+                                padding: const EdgeInsets.all(10),
+                                child: const Icon(
+                                  Icons.person,
+                                  size: 40,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  height: 90,
-                                  width: 230,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
+                                Text(
+                                  userName,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  padding: const EdgeInsets.only(
-                                    top: 15,
-                                    bottom: 15,
-                                    right: 15,
-                                    left: 20,
-                                  ),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Center(
-                                        child: Icon(
-                                          Icons.settings,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10),
-                                        child: Container(
-                                          width: 3,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          'Settings',
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                    ],
+                                ),
+                                Text(
+                                  userEmail,
+                                  style: TextStyle(
+                                    fontSize: 10,
                                   ),
                                 ),
                               ],
                             ),
+                            const SizedBox(
+                              width: 56,
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.grey.shade200,
+                              ),
+                              child: Text(
+                                'Edit',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
+            initialChildSize: 0.65,
+            minChildSize: 0.65,
+            maxChildSize: 1,
           ),
-        ),
+        ],
       ),
     );
   }
