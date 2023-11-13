@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:official_app/model/data_model.dart';
 import 'package:official_app/pages/add_update_note.dart';
 import 'package:provider/provider.dart';
@@ -118,24 +117,24 @@ class _SwitchLayoutState extends State<SwitchLayout> {
           final createdAt = noteData.noteCreatedAt;
           final formattedTime = formatTimeDifference(createdAt);
 
-          return Card(
-            color: widget.softColor,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => NotePage(
-                        initialTitle: noteData.noteTitle,
-                        initialContent: noteData.noteContent,
-                        noteKey: noteKey,
-                        stateCheck: 'true',
-                        updateUI: widget.updateUI,
-                      ),
-                    ),
-                  );
-                },
+          return InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => NotePage(
+                    initialTitle: noteData.noteTitle,
+                    initialContent: noteData.noteContent,
+                    noteKey: noteKey,
+                    stateCheck: 'true',
+                    updateUI: widget.updateUI,
+                  ),
+                ),
+              );
+            },
+            child: Card(
+              color: widget.softColor,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -219,16 +218,13 @@ class _SwitchLayoutState extends State<SwitchLayout> {
                       }
                       noteData.isSaved = !noteData.isSaved;
                     });
-                    // toast message
-                    Fluttertoast.showToast(
-                      msg: noteData.isSaved
-                          ? 'Added to favorites'
-                          : 'Removed from favorites',
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      backgroundColor: Colors.black.withOpacity(0.5),
-                      textColor: Colors.white,
-                      fontSize: 16.0,
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(noteData.isSaved
+                            ? 'Added to favorites'
+                            : 'Removed from favorites'),
+                      ),
                     );
                   },
                   style: FilledButton.styleFrom(
@@ -255,11 +251,195 @@ class _SwitchLayoutState extends State<SwitchLayout> {
                     ),
                   );
                 },
+                onLongPress: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => CustomDialogWidget(
+                      titleText: noteData.noteTitle,
+                      contentText: noteData.noteContent,
+                      noteCreated: formattedTime,
+                      index: index,
+                      noteData: noteData,
+                    ),
+                  );
+                },
               ),
             ),
           );
         },
       );
     }
+  }
+}
+
+class CustomDialogWidget extends StatefulWidget {
+  CustomDialogWidget({
+    super.key,
+    required this.titleText,
+    required this.contentText,
+    required this.noteCreated,
+    required this.index,
+    required this.noteData,
+  });
+
+  final Note noteData;
+  final String titleText;
+  final String contentText;
+  final String noteCreated;
+  final int index;
+
+  @override
+  State<CustomDialogWidget> createState() => _CustomDialogWidgetState();
+}
+
+class _CustomDialogWidgetState extends State<CustomDialogWidget> {
+  @override
+  Widget build(BuildContext context) {
+    Color cardColor = Colors.blue.shade100;
+    return Dialog(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Icon(
+                    Icons.delete_outline,
+                    color: Colors.red,
+                    size: 30,
+                  ),
+                  Text(
+                    'Delete Note?',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      height: 1.5,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  )
+                ],
+              ),
+            ),
+            Card(
+              color: cardColor,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 30,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Title: ${widget.titleText}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        height: 1.5,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Text(
+                      'Content: ${widget.contentText}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 10,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Text(
+                      'Created: ${widget.noteCreated}',
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Center(
+              child: OutlinedButton(
+                onPressed: () {
+                  Note discarded = noteBox.getAt(widget.index);
+
+                  String dTitle = discarded.noteTitle;
+                  String dContent = discarded.noteContent;
+                  DateTime dDate = discarded.noteCreatedAt;
+                  bool dIsSaved = discarded.isSaved;
+
+                  setState(() {
+                    if (deletedNotes.contains(discarded)) {
+                      return;
+                    } else {
+                      deletedNotes.add(discarded);
+                      noteBox.deleteAt(widget.index);
+                    }
+
+                    if (savedNotes.contains(discarded)) {
+                      savedNotes.remove(discarded);
+                    } else {
+                      return;
+                    }
+
+                    widget.noteData.isDeleted = !widget.noteData.isDeleted;
+                  });
+
+                  Navigator.pop(context);
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text('Note Deleted'),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        onPressed: () {
+                          setState(() {
+                            if (deletedNotes.contains(discarded)) {
+                              noteBox.put(
+                                'key_$dTitle',
+                                Note(
+                                  noteTitle: dTitle,
+                                  noteContent: dContent,
+                                  noteCreatedAt: dDate,
+                                  isSaved: dIsSaved,
+                                  isDeleted: false,
+                                ),
+                              );
+
+                              deletedNotes.remove(discarded);
+                            } else {
+                              return;
+                            }
+
+                            widget.noteData.isDeleted =
+                                !widget.noteData.isDeleted;
+                          });
+                        },
+                      ),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.red,
+                  side: const BorderSide(color: Colors.red),
+                ),
+                child: const Text('Delete'),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

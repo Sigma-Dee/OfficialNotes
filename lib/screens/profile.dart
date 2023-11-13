@@ -13,6 +13,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 80,
         backgroundColor: Colors.blue.shade200,
         title: const Text(
           'Profile',
@@ -35,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Colors.grey.shade200,
                 ),
                 padding: const EdgeInsets.all(10),
-                child: Icon(
+                child: const Icon(
                   Icons.settings,
                   color: Colors.grey,
                 ),
@@ -51,12 +52,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 120,
                 ),
                 Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 295,
                     ),
                     InkWell(
@@ -69,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.grey.shade200.withOpacity(0.4),
                         ),
                         padding: const EdgeInsets.all(10),
-                        child: Icon(
+                        child: const Icon(
                           Icons.palette_outlined,
                           color: Colors.grey,
                         ),
@@ -157,7 +158,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 Text(
                                   userEmail,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 10,
                                   ),
                                 ),
@@ -171,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               style: TextButton.styleFrom(
                                 backgroundColor: Colors.grey.shade200,
                               ),
-                              child: Text(
+                              child: const Text(
                                 'Edit',
                                 style: TextStyle(
                                   color: Colors.grey,

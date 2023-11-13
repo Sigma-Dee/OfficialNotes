@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class AgendaPage extends StatefulWidget {
   const AgendaPage({
@@ -65,14 +64,10 @@ class _AgendaPageState extends State<AgendaPage> {
             child: InkWell(
               onTap: () {
                 setState(() {});
-                // toast message
-                Fluttertoast.showToast(
-                  msg: 'Saved',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  backgroundColor: Colors.black.withOpacity(0.5),
-                  textColor: Colors.white,
-                  fontSize: 16.0,
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Saved'),
+                  ),
                 );
               },
               borderRadius: BorderRadius.circular(30),

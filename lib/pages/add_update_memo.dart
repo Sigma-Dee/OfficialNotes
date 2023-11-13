@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class MemoPage extends StatefulWidget {
   const MemoPage({
@@ -65,14 +64,10 @@ class _MemoPageState extends State<MemoPage> {
             child: InkWell(
               onTap: () {
                 setState(() {});
-                // toast message
-                Fluttertoast.showToast(
-                  msg: 'Saved',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  backgroundColor: Colors.black.withOpacity(0.5),
-                  textColor: Colors.white,
-                  fontSize: 16.0,
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Saved'),
+                  ),
                 );
               },
               borderRadius: BorderRadius.circular(30),
