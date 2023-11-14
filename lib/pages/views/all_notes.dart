@@ -176,94 +176,110 @@ class _SwitchLayoutState extends State<SwitchLayout> {
           final createdAt = noteData.noteCreatedAt;
           final formattedTime = formatTimeDifference(createdAt);
           return Card(
-            color: widget.softColor,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: ListTile(
-                title: Text(
-                  noteData.noteTitle.toUpperCase(),
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    height: 1.5,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+            clipBehavior: Clip.hardEdge,
+            shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  color: widget.softColor,
+                  width: 15,
+                  height: 100,
                 ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      noteData.noteContent,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 10,
-                        overflow: TextOverflow.ellipsis,
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    child: ListTile(
+                      title: Text(
+                        noteData.noteTitle.toUpperCase(),
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          height: 1.5,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Created: $formattedTime',
-                      style: const TextStyle(fontSize: 10),
-                    ),
-                  ],
-                ),
-                trailing: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      Note bookMarked = noteBox.getAt(index);
-                      if (savedNotes.contains(bookMarked)) {
-                        savedNotes.remove(bookMarked);
-                      } else {
-                        savedNotes.add(bookMarked);
-                      }
-                      noteData.isSaved = !noteData.isSaved;
-                    });
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            noteData.noteContent,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Text(
+                            'Created: $formattedTime',
+                            style: const TextStyle(fontSize: 10),
+                          ),
+                        ],
+                      ),
+                      trailing: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            Note bookMarked = noteBox.getAt(index);
+                            if (savedNotes.contains(bookMarked)) {
+                              savedNotes.remove(bookMarked);
+                            } else {
+                              savedNotes.add(bookMarked);
+                            }
+                            noteData.isSaved = !noteData.isSaved;
+                          });
 
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(noteData.isSaved
-                            ? 'Added to favorites'
-                            : 'Removed from favorites'),
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(noteData.isSaved
+                                  ? 'Added to favorites'
+                                  : 'Removed from favorites'),
+                            ),
+                          );
+                        },
+                        style: FilledButton.styleFrom(
+                          backgroundColor: noteData.isSaved
+                              ? widget.softColor
+                              : Colors.transparent,
+                        ),
+                        icon: Icon(
+                          Icons.bookmark_rounded,
+                          color: noteData.isSaved
+                              ? widget.hardColor
+                              : Colors.grey.withOpacity(0.5),
+                        ),
                       ),
-                    );
-                  },
-                  style: FilledButton.styleFrom(
-                    backgroundColor:
-                        noteData.isSaved ? Colors.white : Colors.transparent,
-                  ),
-                  icon: Icon(
-                    Icons.bookmark_rounded,
-                    color: noteData.isSaved
-                        ? widget.hardColor
-                        : Colors.grey.withOpacity(0.5),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => NotePage(
+                              initialTitle: noteData.noteTitle,
+                              initialContent: noteData.noteContent,
+                              noteKey: noteKey,
+                              stateCheck: 'true',
+                              updateUI: widget.updateUI,
+                            ),
+                          ),
+                        );
+                      },
+                      onLongPress: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => CustomDialogWidget(
+                            titleText: noteData.noteTitle,
+                            contentText: noteData.noteContent,
+                            noteCreated: formattedTime,
+                            index: index,
+                            noteData: noteData,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => NotePage(
-                        initialTitle: noteData.noteTitle,
-                        initialContent: noteData.noteContent,
-                        noteKey: noteKey,
-                        stateCheck: 'true',
-                        updateUI: widget.updateUI,
-                      ),
-                    ),
-                  );
-                },
-                onLongPress: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => CustomDialogWidget(
-                      titleText: noteData.noteTitle,
-                      contentText: noteData.noteContent,
-                      noteCreated: formattedTime,
-                      index: index,
-                      noteData: noteData,
-                    ),
-                  );
-                },
-              ),
+              ],
             ),
           );
         },

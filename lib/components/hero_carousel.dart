@@ -81,8 +81,11 @@ class _HeroCarouselState extends State<HeroCarousel> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const TaskPage(
+                          builder: (context) => TaskPage(
                             stateCheck: 'false',
+                            updateUI: updateUI,
+                            initialTitle: '',
+                            initialDetails: '',
                           ),
                         ),
                       );

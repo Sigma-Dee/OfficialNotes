@@ -153,8 +153,11 @@ class _OptionsPageState extends State<OptionsPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const TaskPage(
+                          builder: (context) => TaskPage(
                             stateCheck: 'false',
+                            updateUI: updateUI,
+                            initialTitle: '',
+                            initialDetails: '',
                           ),
                         ),
                       );

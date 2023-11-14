@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 class TaskPage extends StatefulWidget {
   const TaskPage({
     super.key,
-    this.updateUI,
+    required this.updateUI,
     this.stateCheck,
+    this.taskKey,
+    required this.initialTitle,
+    required this.initialDetails,
   });
 
-  final VoidCallback? updateUI;
+  final VoidCallback updateUI;
   final String? stateCheck;
-  //final String initialTitle;
-  //final String initialContent;
-  //final String? noteKey;
+  final String initialTitle;
+  final String initialDetails;
+  final String? taskKey;
 
   @override
   State<TaskPage> createState() => _TaskPageState();

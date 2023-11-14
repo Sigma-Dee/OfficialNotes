@@ -22,7 +22,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${today.toString().split(" ")[0]}',
+          today.toString().split(" ")[0],
         ),
         centerTitle: true,
       ),

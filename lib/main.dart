@@ -5,11 +5,14 @@ import 'package:official_app/model/data_model.dart';
 
 // initialize Box
 late Box noteBox;
+late Box taskBox;
 
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(NoteAdapter());
+  Hive.registerAdapter(TaskAdapter());
   noteBox = await Hive.openBox<Note>('noteBox');
+  taskBox = await Hive.openBox<Task>('taskBox');
   runApp(const MyApp());
 }
 
@@ -22,8 +25,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Official Notes App',
       theme: ThemeData(
+        primaryColor: Colors.black,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
+          seedColor: Colors.black,
         ),
         useMaterial3: true,
       ),
