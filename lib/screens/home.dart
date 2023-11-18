@@ -101,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     updateUI: updateUI,
                     initialTitle: '',
                     initialDetails: '',
+                    initialDate: '',
                   ),
                 ),
               );
@@ -138,22 +139,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      /*
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => OptionsPage(
-                updateUI: updateUI,
-              ),
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
-
-       */
     );
   }
 }

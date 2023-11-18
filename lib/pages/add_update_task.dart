@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:official_app/main.dart';
+import 'package:official_app/model/data_model.dart';
+
+import '../data/handler.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({
@@ -8,6 +13,7 @@ class TaskPage extends StatefulWidget {
     this.taskKey,
     required this.initialTitle,
     required this.initialDetails,
+    required this.initialDate,
   });
 
   final VoidCallback updateUI;
@@ -15,6 +21,7 @@ class TaskPage extends StatefulWidget {
   final String initialTitle;
   final String initialDetails;
   final String? taskKey;
+  final String initialDate;
 
   @override
   State<TaskPage> createState() => _TaskPageState();
@@ -24,18 +31,49 @@ class _TaskPageState extends State<TaskPage> {
   // Text Editing Controllers
   var titleController = TextEditingController();
   var contentController = TextEditingController();
+  // Edit Mode Trigger
+  late bool isEditMode;
+  String? bVal;
   // Initialize State
   @override
   void initState() {
+    dateTime = DateTime.now();
+    // String to Boolean value
+    bVal = widget.stateCheck?.toString();
+    if (bVal == 'true') {
+      isEditMode = true;
+    } else {
+      isEditMode = false;
+    }
+    // Text Editor Controllers
+    if (isEditMode == true) {
+      titleController.text = widget.initialTitle;
+      contentController.text = widget.initialDetails;
+      if (widget.initialDate.isNotEmpty) {
+        String initialDateTime = widget.initialDate;
+        DateTime dateTime =
+            DateFormat('E, MMM d, h:mm a').parse(initialDateTime);
+        dateData = DateFormat('E, MMM d').format(dateTime);
+        timeData = DateFormat('h:mm a').format(dateTime);
+      } else {
+        return;
+      }
+    } else {
+      return;
+    }
     super.initState();
   }
 
-  // dispose
-  @override
-  void dispose() {
-    titleController.dispose();
-    contentController.dispose();
-    super.dispose();
+  void clear() {
+    titleController.clear();
+    contentController.clear();
+    dateData = '';
+    timeData = '';
+  }
+
+  void onCancel() {
+    Navigator.pop(context);
+    clear();
   }
 
   Color hardColor = Colors.green.shade300;
@@ -45,16 +83,14 @@ class _TaskPageState extends State<TaskPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: onCancel,
           icon: Icon(
             Icons.arrow_back_ios_rounded,
             color: hardColor,
           ),
         ),
         title: Text(
-          'Create Task',
+          isEditMode ? 'Edit Task' : 'Create Task',
           style: TextStyle(
             color: hardColor,
             fontWeight: FontWeight.bold,
@@ -66,10 +102,31 @@ class _TaskPageState extends State<TaskPage> {
             padding: const EdgeInsets.only(right: 20),
             child: InkWell(
               onTap: () {
-                setState(() {});
+                if (dateData.isNotEmpty && timeData.isNotEmpty) {
+                  combinedDateTime = '$dateData, $timeData';
+                }
+                setState(() {
+                  taskBox.put(
+                    widget.taskKey ?? 'key_${titleController.text}',
+                    Task(
+                      isChecked: false,
+                      taskTitle: titleController.text,
+                      taskDetails: contentController.text,
+                      taskDate: combinedDateTime,
+                      isDeleted: false,
+                      taskCreatedAt: today,
+                    ),
+                  );
+                });
+
+                Navigator.pop(context);
+
+                clear();
+
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Saved'),
+                  SnackBar(
+                    content:
+                        Text(isEditMode ? 'Task Changes Saved' : 'Task Saved'),
                   ),
                 );
               },
@@ -106,41 +163,50 @@ class _TaskPageState extends State<TaskPage> {
                 children: [
                   Column(
                     children: [
-                      TextField(
-                        controller: contentController,
-                        maxLines: 6,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: ShapeDecoration(
+                          color: Colors.white.withOpacity(0.7),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide:
-                                const BorderSide(color: Colors.transparent),
-                          ),
-                          contentPadding: const EdgeInsets.only(
-                            bottom: 12,
-                            top: 120,
-                            left: 20,
-                            right: 20,
-                          ),
-                          hintText: 'Task',
-                          hintStyle: TextStyle(
-                            color: hardColor,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.7),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide:
-                                const BorderSide(color: Colors.transparent),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide:
-                                const BorderSide(color: Colors.transparent),
-                          ),
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 50,
+                            ),
+                            TextField(
+                              controller: contentController,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.only(
+                                  bottom: 5,
+                                  top: 12,
+                                  left: 10,
+                                  right: 10,
+                                ),
+                                hintText: 'Description',
+                                hintStyle: TextStyle(
+                                  color: hardColor,
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                  ),
+                                ),
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            buildDateTimeSection(),
+                          ],
                         ),
                       ),
                     ],
@@ -157,7 +223,7 @@ class _TaskPageState extends State<TaskPage> {
                         vertical: 12,
                         horizontal: 20,
                       ),
-                      hintText: 'Title',
+                      hintText: 'Task',
                       hintStyle: TextStyle(
                         color: hardColor,
                       ),
@@ -181,4 +247,217 @@ class _TaskPageState extends State<TaskPage> {
       ),
     );
   }
+
+  bool addDate = false;
+  bool addTime = false;
+
+  Widget buildDateTimeSection() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Checkbox(
+              focusColor: hardColor,
+              activeColor: hardColor,
+              side: BorderSide(
+                width: 2,
+                color: hardColor,
+              ),
+              value: addDate,
+              onChanged: (_) {
+                setState(() {
+                  addDate = !addDate;
+                });
+              },
+            ),
+            Text(
+              'DATE',
+              style: TextStyle(
+                color: hardColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        addDate ? buildDateWidget() : const SizedBox(),
+        Row(
+          children: [
+            Checkbox(
+              focusColor: hardColor,
+              activeColor: hardColor,
+              side: BorderSide(
+                width: 2,
+                color: hardColor,
+              ),
+              value: addTime,
+              onChanged: (_) {
+                setState(() {
+                  addTime = !addTime;
+                });
+              },
+            ),
+            Text(
+              'TIME',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: hardColor,
+              ),
+            ),
+          ],
+        ),
+        addTime ? buildTimeWidget() : const SizedBox(),
+      ],
+    );
+  }
+
+  Widget buildDateWidget() {
+    String pickedDate = Utils.toDate(dateTime);
+    return Container(
+      decoration: ShapeDecoration(
+        color: softColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+      width: 180,
+      child: dropDown(
+        text: pickedDate,
+        onClick: () => datePicker(
+          completedDate: Utils.toDate(dateTime),
+          pickDate: true,
+        ),
+        color: hardColor,
+      ),
+    );
+  }
+
+  Widget buildTimeWidget() {
+    String pickedTime = Utils.toTime(dateTime);
+    return Container(
+      decoration: ShapeDecoration(
+        color: softColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+      width: 160,
+      child: dropDown(
+        text: pickedTime,
+        onClick: () => timePicker(
+          completedTime: Utils.toTime(dateTime),
+          pickTime: true,
+        ),
+        color: hardColor,
+      ),
+    );
+  }
+
+  datePicker({
+    required bool pickDate,
+    required String completedDate,
+  }) async {
+    final date = await chooseDate(
+      dateTime,
+      pickDate: pickDate,
+      firstDate: pickDate ? today : null,
+      completedDate: completedDate,
+    );
+
+    if (date == null) return;
+
+    setState(() => dateTime = date);
+  }
+
+  timePicker({
+    required bool pickTime,
+    required String completedTime,
+  }) async {
+    final date = await chooseTime(
+      dateTime,
+      pickTime: pickTime,
+      firstDate: pickTime ? today : null,
+      completedTime: completedTime,
+    );
+
+    if (date == null) return;
+
+    setState(() => dateTime = date);
+  }
+
+  Future<DateTime?> chooseDate(
+    DateTime initialDate, {
+    required bool pickDate,
+    DateTime? firstDate,
+    required String completedDate,
+  }) async {
+    if (pickDate) {
+      final date = await showDatePicker(
+        context: context,
+        initialDate: initialDate,
+        firstDate: firstDate ?? today,
+        lastDate: DateTime(2030),
+      ).whenComplete(() => dateData = completedDate);
+
+      if (date == null) return null;
+
+      final time = Duration(
+        hours: initialDate.hour,
+        minutes: initialDate.minute,
+      );
+
+      return date.add(time);
+    }
+    return null;
+  }
+
+  Future<DateTime?> chooseTime(
+    DateTime initialDate, {
+    required bool pickTime,
+    DateTime? firstDate,
+    required String completedTime,
+  }) async {
+    if (pickTime) {
+      final timeOfDay = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(initialDate),
+      ).whenComplete(() => timeData = completedTime);
+
+      if (timeOfDay == null) return null;
+
+      final date = DateTime(
+        initialDate.year,
+        initialDate.month,
+        initialDate.day,
+      );
+
+      final time = Duration(
+        hours: timeOfDay.hour,
+        minutes: timeOfDay.minute,
+      );
+
+      return date.add(time);
+    }
+    return null;
+  }
+
+  Widget dropDown({
+    required String text,
+    required VoidCallback onClick,
+    required Color color,
+  }) =>
+      ListTile(
+        title: Text(
+          text,
+          style: TextStyle(
+            fontSize: 12,
+            color: color,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        trailing: Icon(
+          Icons.arrow_drop_down,
+          color: color,
+        ),
+        onTap: onClick,
+      );
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:official_app/constants/colors.dart';
 import 'package:official_app/screens/calendar.dart';
 import 'package:official_app/screens/home.dart';
 import 'package:official_app/screens/profile.dart';
@@ -32,10 +31,9 @@ class _NavigationManagerState extends State<NavigationManager> {
     return Scaffold(
       body: screens[currentIndex],
       bottomNavigationBar: NavigationBarTheme(
-        data: NavigationBarThemeData(
-          backgroundColor: Colors.grey.shade200,
+        data: const NavigationBarThemeData(
           labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-          indicatorColor: AppColors.accentColorTwo,
+          indicatorColor: Colors.white,
         ),
         child: NavigationBar(
           height: 70,

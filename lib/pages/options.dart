@@ -158,6 +158,7 @@ class _OptionsPageState extends State<OptionsPage> {
                             updateUI: updateUI,
                             initialTitle: '',
                             initialDetails: '',
+                            initialDate: '',
                           ),
                         ),
                       );

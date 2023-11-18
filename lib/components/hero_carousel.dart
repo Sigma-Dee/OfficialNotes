@@ -86,6 +86,7 @@ class _HeroCarouselState extends State<HeroCarousel> {
                             updateUI: updateUI,
                             initialTitle: '',
                             initialDetails: '',
+                            initialDate: '',
                           ),
                         ),
                       );

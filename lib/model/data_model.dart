@@ -27,23 +27,27 @@ class Note {
 @HiveType(typeId: 1)
 class Task {
   Task({
+    required this.isChecked,
     required this.taskTitle,
     required this.taskDetails,
-    required this.taskCreatedAt,
-    required this.isChecked,
+    required this.taskDate,
     required this.isDeleted,
+    required this.taskCreatedAt,
   });
   @HiveField(0)
-  String taskTitle;
+  bool isChecked;
   @HiveField(1)
-  String? taskDetails;
+  String taskTitle;
   @HiveField(2)
-  DateTime taskCreatedAt;
+  String taskDetails;
   @HiveField(3)
-  bool isChecked = false;
+  String taskDate;
   @HiveField(4)
   bool isDeleted = false;
+  @HiveField(5)
+  DateTime taskCreatedAt;
 }
+
 /*
 @HiveType(typeId: 2)
 class Memo {}

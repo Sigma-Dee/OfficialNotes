@@ -73,7 +73,7 @@ class _AllNotesPageState extends State<AllNotesPage> {
                 ),
               ),
             )
-          : SwitchLayout(
+          : SwitchNotesLayout(
               hardColor: hardColor,
               softColor: softColor,
               updateUI: updateUI,
@@ -82,8 +82,8 @@ class _AllNotesPageState extends State<AllNotesPage> {
   }
 }
 
-class SwitchLayout extends StatefulWidget {
-  const SwitchLayout({
+class SwitchNotesLayout extends StatefulWidget {
+  const SwitchNotesLayout({
     super.key,
     required this.hardColor,
     required this.softColor,
@@ -95,10 +95,10 @@ class SwitchLayout extends StatefulWidget {
   final VoidCallback updateUI;
 
   @override
-  State<SwitchLayout> createState() => _SwitchLayoutState();
+  State<SwitchNotesLayout> createState() => _SwitchNotesLayoutState();
 }
 
-class _SwitchLayoutState extends State<SwitchLayout> {
+class _SwitchNotesLayoutState extends State<SwitchNotesLayout> {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<LayoutChangerState>();
@@ -267,7 +267,7 @@ class _SwitchLayoutState extends State<SwitchLayout> {
                       onLongPress: () {
                         showDialog(
                           context: context,
-                          builder: (context) => CustomDialogWidget(
+                          builder: (context) => CustomNoteDialogWidget(
                             titleText: noteData.noteTitle,
                             contentText: noteData.noteContent,
                             noteCreated: formattedTime,
@@ -288,8 +288,8 @@ class _SwitchLayoutState extends State<SwitchLayout> {
   }
 }
 
-class CustomDialogWidget extends StatefulWidget {
-  CustomDialogWidget({
+class CustomNoteDialogWidget extends StatefulWidget {
+  CustomNoteDialogWidget({
     super.key,
     required this.titleText,
     required this.contentText,
@@ -305,10 +305,10 @@ class CustomDialogWidget extends StatefulWidget {
   final int index;
 
   @override
-  State<CustomDialogWidget> createState() => _CustomDialogWidgetState();
+  State<CustomNoteDialogWidget> createState() => _CustomNoteDialogWidgetState();
 }
 
-class _CustomDialogWidgetState extends State<CustomDialogWidget> {
+class _CustomNoteDialogWidgetState extends State<CustomNoteDialogWidget> {
   @override
   Widget build(BuildContext context) {
     Color cardColor = Colors.blue.shade100;
