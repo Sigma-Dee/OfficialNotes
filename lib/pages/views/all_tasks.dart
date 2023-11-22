@@ -35,28 +35,31 @@ class _AllTasksPageState extends State<AllTasksPage> {
     Color softColor = Colors.green.shade100;
     return Scaffold(
       body: isListEmpty()
-          ? ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(28),
-              ),
-              child: Container(
-                color: softColor,
-                child: Center(
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 10,
+          ? Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(28),
+                ),
+                child: Container(
+                  color: softColor,
+                  child: Center(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
                       ),
-                      color: Colors.white,
-                      child: Text(
-                        'Task Box Empty',
-                        style: TextStyle(
-                          color: hardColor,
-                          fontWeight: FontWeight.bold,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
+                        ),
+                        color: Colors.white,
+                        child: Text(
+                          'Task Box Empty',
+                          style: TextStyle(
+                            color: hardColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

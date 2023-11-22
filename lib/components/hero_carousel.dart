@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:official_app/pages/add_update_agenda.dart';
-import 'package:official_app/pages/add_update_memo.dart';
 import 'package:official_app/pages/add_update_note.dart';
 import 'package:official_app/pages/add_update_task.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -87,16 +86,6 @@ class _HeroCarouselState extends State<HeroCarousel> {
                             initialTitle: '',
                             initialDetails: '',
                             initialDate: '',
-                          ),
-                        ),
-                      );
-                      break;
-                    case Icons.add_photo_alternate_outlined:
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MemoPage(
-                            stateCheck: 'false',
                           ),
                         ),
                       );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:official_app/pages/views/all_agendas.dart';
-import 'package:official_app/pages/views/all_memos.dart';
 import 'package:official_app/pages/views/all_notes.dart';
 import 'package:official_app/pages/views/all_tasks.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +36,6 @@ class _MainBodyWidgetState extends State<MainBodyWidget> {
   final pages = const [
     AllNotesPage(),
     AllTasksPage(),
-    AllMemosPage(),
     AllAgendasPage(),
   ];
 
@@ -128,9 +126,6 @@ class _MainBodyWidgetState extends State<MainBodyWidget> {
                                     goToPage(index);
                                     break;
                                   case 'Task':
-                                    goToPage(index);
-                                    break;
-                                  case 'Memo':
                                     goToPage(index);
                                     break;
                                   case 'Agenda':

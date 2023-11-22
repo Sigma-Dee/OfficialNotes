@@ -6,7 +6,6 @@ import 'package:official_app/widgets/saved_icon_button.dart';
 
 import '../components/main_body.dart';
 import '../pages/add_update_agenda.dart';
-import '../pages/add_update_memo.dart';
 import '../pages/add_update_note.dart';
 import '../pages/add_update_task.dart';
 
@@ -49,96 +48,85 @@ class _HomeScreenState extends State<HomeScreen> {
           MainBody(),
         ],
       ),
-      floatingActionButton: SpeedDial(
-        backgroundColor: Colors.white,
-        onOpen: () {
-          setState(() {
-            isOpen = true;
-          });
-        },
-        onClose: () {
-          setState(() {
-            isOpen = false;
-          });
-        },
-        spacing: 30,
-        overlayOpacity: 0.0,
-        shape: isOpen
-            ? CircleBorder()
-            : RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+      floatingActionButton: FAB(),
+    );
+  }
+
+  Widget FAB() {
+    return SpeedDial(
+      backgroundColor: Colors.white,
+      onOpen: () {
+        setState(() {
+          isOpen = true;
+        });
+      },
+      onClose: () {
+        setState(() {
+          isOpen = false;
+        });
+      },
+      spacing: 30,
+      overlayOpacity: 0.0,
+      shape: isOpen
+          ? CircleBorder()
+          : RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+      animatedIcon: AnimatedIcons.menu_close,
+      children: [
+        SpeedDialChild(
+          child: const Icon(Icons.add),
+          backgroundColor: Colors.blue.shade200,
+          label: 'New Note',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NotePage(
+                  initialTitle: '',
+                  initialContent: '',
+                  stateCheck: 'false',
+                  updateUI: updateUI,
+                ),
               ),
-        animatedIcon: AnimatedIcons.menu_close,
-        children: [
-          SpeedDialChild(
-            child: const Icon(Icons.add),
-            backgroundColor: Colors.blue.shade200,
-            label: 'New Note',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NotePage(
-                    initialTitle: '',
-                    initialContent: '',
-                    stateCheck: 'false',
-                    updateUI: updateUI,
-                  ),
+            );
+          },
+        ),
+        SpeedDialChild(
+          child: const Icon(Icons.add_task),
+          backgroundColor: Colors.green.shade200,
+          label: 'New Task',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TaskPage(
+                  stateCheck: 'false',
+                  updateUI: updateUI,
+                  initialTitle: '',
+                  initialDetails: '',
+                  initialDate: '',
                 ),
-              );
-            },
-          ),
-          SpeedDialChild(
-            child: const Icon(Icons.add_task),
-            backgroundColor: Colors.green.shade200,
-            label: 'New Task',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TaskPage(
-                    stateCheck: 'false',
-                    updateUI: updateUI,
-                    initialTitle: '',
-                    initialDetails: '',
-                    initialDate: '',
-                  ),
+              ),
+            );
+          },
+        ),
+        SpeedDialChild(
+          child: const Icon(Icons.calendar_month_rounded),
+          backgroundColor: Colors.orange.shade200,
+          label: 'New Agenda',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AgendaPage(
+                  stateCheck: 'false',
                 ),
-              );
-            },
-          ),
-          SpeedDialChild(
-            child: const Icon(Icons.add_photo_alternate_outlined),
-            backgroundColor: Colors.brown.shade200,
-            label: 'New Memo',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MemoPage(
-                    stateCheck: 'false',
-                  ),
-                ),
-              );
-            },
-          ),
-          SpeedDialChild(
-            child: const Icon(Icons.calendar_month_rounded),
-            backgroundColor: Colors.orange.shade200,
-            label: 'New Agenda',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AgendaPage(
-                    stateCheck: 'false',
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

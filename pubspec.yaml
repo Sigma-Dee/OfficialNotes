@@ -18,7 +18,7 @@ dependencies:
   hive_flutter: ^1.1.0
   intl: ^0.18.1
   provider: ^6.1.1
-  syncfusion_flutter_calendar: ^23.1.44
+  syncfusion_flutter_calendar: ^23.2.4
   flutter_speed_dial: ^7.0.0
   flutter_slidable: ^3.0.1
   get: ^4.6.6

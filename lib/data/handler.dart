@@ -39,7 +39,6 @@ String userEmail = 'devtee9@gmail.com';
 List<IconData> buttonIcons = [
   Icons.add,
   Icons.add_task,
-  Icons.add_photo_alternate_outlined,
   Icons.calendar_month_rounded,
 ];
 
@@ -47,7 +46,6 @@ List<IconData> buttonIcons = [
 List<String> buttonText = [
   'Note',
   'Task',
-  'Memo',
   'Agenda',
 ];
 

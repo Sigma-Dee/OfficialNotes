@@ -6,13 +6,16 @@ import 'package:official_app/model/data_model.dart';
 // initialize Box
 late Box noteBox;
 late Box taskBox;
+late Box agendaBox;
 
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(NoteAdapter());
   Hive.registerAdapter(TaskAdapter());
+  Hive.registerAdapter(AgendaAdapter());
   noteBox = await Hive.openBox<Note>('noteBox');
   taskBox = await Hive.openBox<Task>('taskBox');
+  agendaBox = await Hive.openBox<Agenda>('agendaBox');
   runApp(const MyApp());
 }
 

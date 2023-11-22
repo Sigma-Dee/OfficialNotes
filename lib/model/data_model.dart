@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:hive/hive.dart';
 
 part 'data_model.g.dart';
@@ -48,12 +50,26 @@ class Task {
   DateTime taskCreatedAt;
 }
 
-/*
 @HiveType(typeId: 2)
-class Memo {}
-
-@HiveType(typeId: 3)
-class Agenda {}
-
-
- */
+class Agenda {
+  Agenda({
+    required this.subjectTitle,
+    required this.startTime,
+    required this.endTime,
+    required this.pinColor,
+    required this.isAllDay,
+    required this.frequencyFormat,
+  });
+  @HiveField(0)
+  String subjectTitle;
+  @HiveField(1)
+  DateTime startTime;
+  @HiveField(2)
+  DateTime endTime;
+  @HiveField(3)
+  Color pinColor;
+  @HiveField(4)
+  bool isAllDay;
+  @HiveField(5)
+  String frequencyFormat;
+}
