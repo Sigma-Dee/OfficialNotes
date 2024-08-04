@@ -100,6 +100,14 @@ class _HeroCarouselState extends State<HeroCarousel> {
                         ),
                       );
                       break;
+                    case Icons.info_outline_rounded:
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Placeholder(),
+                        ),
+                      );
+                      break;
                   }
                 },
                 child: Card(

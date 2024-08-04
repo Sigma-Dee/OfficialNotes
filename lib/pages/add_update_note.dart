@@ -51,6 +51,8 @@ class _NotePageState extends State<NotePage> {
     }
   }
 
+  void updateUI() {}
+
   // dispose
   @override
   void dispose() {

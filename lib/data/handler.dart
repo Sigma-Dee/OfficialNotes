@@ -18,8 +18,8 @@ class Utils {
   }
 
   static String toTime(DateTime dateTime) {
-    final timeFormate = DateFormat('h:mm a');
-    final time = timeFormate.format(dateTime);
+    final timeFormat = DateFormat('h:mm a');
+    final time = timeFormat.format(dateTime);
 
     return '$time';
   }
@@ -31,15 +31,16 @@ class Utils {
       );
 }
 
-String userName = 'Sigma D';
-String userDetail = 'admin';
-String userEmail = 'devtee9@gmail.com';
+String userName = 'User Name';
+String userDetail = 'co-worker';
+String userEmail = 'user@email.com';
 
 // icon list
 List<IconData> buttonIcons = [
   Icons.add,
   Icons.add_task,
   Icons.calendar_month_rounded,
+  Icons.info_outline_rounded,
 ];
 
 // text list
@@ -47,6 +48,7 @@ List<String> buttonText = [
   'Note',
   'Task',
   'Agenda',
+  'Issues',
 ];
 
 // note

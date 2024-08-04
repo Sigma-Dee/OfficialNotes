@@ -55,7 +55,7 @@ class _AllTasksPageState extends State<AllTasksPage> {
                         ),
                         color: Colors.white,
                         child: Text(
-                          'Task Box Empty',
+                          'Add New Task',
                           style: TextStyle(
                             color: hardColor,
                             fontWeight: FontWeight.bold,

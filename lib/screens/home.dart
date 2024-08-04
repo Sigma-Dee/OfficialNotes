@@ -113,8 +113,23 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         SpeedDialChild(
           child: const Icon(Icons.calendar_month_rounded),
-          backgroundColor: Colors.orange.shade200,
+          backgroundColor: Colors.brown.shade200,
           label: 'New Agenda',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AgendaPage(
+                  stateCheck: 'false',
+                ),
+              ),
+            );
+          },
+        ),
+        SpeedDialChild(
+          child: const Icon(Icons.info_outline_rounded),
+          backgroundColor: Colors.orange.shade200,
+          label: 'New Issue',
           onTap: () {
             Navigator.push(
               context,

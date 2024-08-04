@@ -9,9 +9,7 @@ import '../../data/handler.dart';
 import '../../main.dart';
 
 class AllNotesPage extends StatefulWidget {
-  const AllNotesPage({
-    super.key,
-  });
+  const AllNotesPage({super.key});
 
   @override
   State<AllNotesPage> createState() => _AllNotesPageState();
@@ -27,15 +25,7 @@ class _AllNotesPageState extends State<AllNotesPage> {
     }
   }
 
-  // initialize state
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void updateUI() {
-    setState(() {});
-  }
+  void updateUI() {}
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +54,7 @@ class _AllNotesPageState extends State<AllNotesPage> {
                         ),
                         color: Colors.white,
                         child: Text(
-                          'Note Box Empty',
+                          'Add New Note',
                           style: TextStyle(
                             color: hardColor,
                             fontWeight: FontWeight.bold,
@@ -106,188 +96,185 @@ class _SwitchNotesLayoutState extends State<SwitchNotesLayout> {
   Widget build(BuildContext context) {
     var appState = context.watch<LayoutChangerState>();
 
-    if (appState.isToggled == true) {
-      return GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-        ),
-        itemCount: noteBox.length,
-        itemBuilder: (context, index) {
-          Note noteData = noteBox.getAt(index);
-          String noteKey = noteBox.keyAt(index);
-          final createdAt = noteData.noteCreatedAt;
-          final formattedTime = formatTimeDifference(createdAt);
-
-          return InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => NotePage(
-                    initialTitle: noteData.noteTitle,
-                    initialContent: noteData.noteContent,
-                    noteKey: noteKey,
-                    stateCheck: 'true',
-                    updateUI: widget.updateUI,
+    return appState.isToggled == true
+        ? GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+            ),
+            itemCount: noteBox.length,
+            itemBuilder: (context, index) {
+              Note noteData = noteBox.getAt(index);
+              String noteKey = noteBox.keyAt(index);
+              final createdAt = noteData.noteCreatedAt;
+              final formattedTime = formatTimeDifference(createdAt);
+              return InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => NotePage(
+                        initialTitle: noteData.noteTitle,
+                        initialContent: noteData.noteContent,
+                        noteKey: noteKey,
+                        stateCheck: 'true',
+                        updateUI: widget.updateUI,
+                      ),
+                    ),
+                  );
+                },
+                child: Card(
+                  color: widget.softColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          noteData.noteTitle.toUpperCase(),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            height: 1.5,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text(
+                          noteData.noteContent,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 10,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text(
+                          'Created: $formattedTime',
+                          style: const TextStyle(fontSize: 10),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
             },
-            child: Card(
-              color: widget.softColor,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          )
+        : ListView.builder(
+            itemCount: noteBox.length,
+            itemBuilder: (context, index) {
+              Note noteData = noteBox.getAt(index);
+              String noteKey = noteBox.keyAt(index);
+              final createdAt = noteData.noteCreatedAt;
+              final formattedTime = formatTimeDifference(createdAt);
+              return Card(
+                clipBehavior: Clip.hardEdge,
+                shape: ContinuousRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      noteData.noteTitle.toUpperCase(),
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                        height: 1.5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    Container(
+                      color: widget.softColor,
+                      width: 15,
+                      height: 100,
                     ),
-                    Text(
-                      noteData.noteContent,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 10,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Text(
-                      'Created: $formattedTime',
-                      style: const TextStyle(fontSize: 10),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      );
-    } else {
-      return ListView.builder(
-        itemCount: noteBox.length,
-        itemBuilder: (context, index) {
-          Note noteData = noteBox.getAt(index);
-          String noteKey = noteBox.keyAt(index);
-          final createdAt = noteData.noteCreatedAt;
-          final formattedTime = formatTimeDifference(createdAt);
-          return Card(
-            clipBehavior: Clip.hardEdge,
-            shape: ContinuousRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  color: widget.softColor,
-                  width: 15,
-                  height: 100,
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    child: ListTile(
-                      title: Text(
-                        noteData.noteTitle.toUpperCase(),
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          height: 1.5,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            noteData.noteContent,
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        child: ListTile(
+                          title: Text(
+                            noteData.noteTitle.toUpperCase(),
                             style: const TextStyle(
                               color: Colors.black,
-                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              height: 1.5,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          Text(
-                            'Created: $formattedTime',
-                            style: const TextStyle(fontSize: 10),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                noteData.noteContent,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 10,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Text(
+                                'Created: $formattedTime',
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      trailing: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            Note bookMarked = noteBox.getAt(index);
-                            if (savedNotes.contains(bookMarked)) {
-                              savedNotes.remove(bookMarked);
-                            } else {
-                              savedNotes.add(bookMarked);
-                            }
-                            noteData.isSaved = !noteData.isSaved;
-                          });
+                          trailing: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                Note bookMarked = noteBox.getAt(index);
+                                if (savedNotes.contains(bookMarked)) {
+                                  savedNotes.remove(bookMarked);
+                                } else {
+                                  savedNotes.add(bookMarked);
+                                }
+                                noteData.isSaved = !noteData.isSaved;
+                              });
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(noteData.isSaved
-                                  ? 'Added to favorites'
-                                  : 'Removed from favorites'),
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(noteData.isSaved
+                                      ? 'Added to favorites'
+                                      : 'Removed from favorites'),
+                                ),
+                              );
+                            },
+                            style: FilledButton.styleFrom(
+                              backgroundColor: noteData.isSaved
+                                  ? widget.softColor
+                                  : Colors.transparent,
                             ),
-                          );
-                        },
-                        style: FilledButton.styleFrom(
-                          backgroundColor: noteData.isSaved
-                              ? widget.softColor
-                              : Colors.transparent,
-                        ),
-                        icon: Icon(
-                          Icons.bookmark_rounded,
-                          color: noteData.isSaved
-                              ? widget.hardColor
-                              : Colors.grey.withOpacity(0.5),
+                            icon: Icon(
+                              Icons.bookmark_rounded,
+                              color: noteData.isSaved
+                                  ? widget.hardColor
+                                  : Colors.grey.withOpacity(0.5),
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => NotePage(
+                                  initialTitle: noteData.noteTitle,
+                                  initialContent: noteData.noteContent,
+                                  noteKey: noteKey,
+                                  stateCheck: 'true',
+                                  updateUI: widget.updateUI,
+                                ),
+                              ),
+                            );
+                          },
+                          onLongPress: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => CustomNoteDialogWidget(
+                                titleText: noteData.noteTitle,
+                                contentText: noteData.noteContent,
+                                noteCreated: formattedTime,
+                                index: index,
+                                noteData: noteData,
+                              ),
+                            );
+                          },
                         ),
                       ),
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => NotePage(
-                              initialTitle: noteData.noteTitle,
-                              initialContent: noteData.noteContent,
-                              noteKey: noteKey,
-                              stateCheck: 'true',
-                              updateUI: widget.updateUI,
-                            ),
-                          ),
-                        );
-                      },
-                      onLongPress: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => CustomNoteDialogWidget(
-                            titleText: noteData.noteTitle,
-                            contentText: noteData.noteContent,
-                            noteCreated: formattedTime,
-                            index: index,
-                            noteData: noteData,
-                          ),
-                        );
-                      },
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           );
-        },
-      );
-    }
   }
 }
 

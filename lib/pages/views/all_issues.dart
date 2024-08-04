@@ -4,14 +4,14 @@ import 'package:official_app/main.dart';
 import 'package:official_app/model/data_model.dart';
 import 'package:provider/provider.dart';
 
-class AllAgendasPage extends StatefulWidget {
-  const AllAgendasPage({super.key});
+class AllIssuesPage extends StatefulWidget {
+  const AllIssuesPage({super.key});
 
   @override
-  State<AllAgendasPage> createState() => _AllAgendasPageState();
+  State<AllIssuesPage> createState() => _AllIssuesPageState();
 }
 
-class _AllAgendasPageState extends State<AllAgendasPage> {
+class _AllIssuesPageState extends State<AllIssuesPage> {
   // check list
   bool isListEmpty() {
     if (agendaBox.isEmpty) {
@@ -27,8 +27,8 @@ class _AllAgendasPageState extends State<AllAgendasPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color hardColor = Colors.brown.shade300;
-    Color softColor = Colors.brown.shade100;
+    Color hardColor = Colors.orange.shade300;
+    Color softColor = Colors.orange.shade100;
     return Scaffold(
       body: isListEmpty()
           ? Padding(
@@ -51,7 +51,7 @@ class _AllAgendasPageState extends State<AllAgendasPage> {
                         ),
                         color: Colors.white,
                         child: Text(
-                          'Add New Agenda',
+                          'Add New Issue',
                           style: TextStyle(
                             color: hardColor,
                             fontWeight: FontWeight.bold,
